@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alertActions";
 
-const Register = (props) => {
+const Register = ({ alert, setAlert }) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -18,7 +20,14 @@ const Register = (props) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log("Register");
+
+    if (!name || !email || !password) {
+      setAlert("Please fill out all fields", "danger");
+    } else if (password !== password2) {
+      setAlert("Passwords do not match", "danger");
+    } else {
+      console.log("Register");
+    }
   };
 
   return (
@@ -29,7 +38,13 @@ const Register = (props) => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input type="text" name="name" value={name} onChange={handleChange} />
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
@@ -38,6 +53,7 @@ const Register = (props) => {
             name="email"
             value={email}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -47,6 +63,8 @@ const Register = (props) => {
             name="password"
             value={password}
             onChange={handleChange}
+            required
+            minLength="6"
           />
         </div>
         <div className="form-group">
@@ -56,6 +74,8 @@ const Register = (props) => {
             name="password2"
             value={password2}
             onChange={handleChange}
+            required
+            minLength="6"
           />
         </div>
         <input
@@ -68,4 +88,11 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  alert: PropTypes.array.isRequired,
+  setAlert: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ alert }) => ({ alert });
+
+export default connect(mapStateToProps, { setAlert })(Register);
