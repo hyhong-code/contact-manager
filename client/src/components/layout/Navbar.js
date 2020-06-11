@@ -25,6 +25,24 @@ const Navbar = ({ title, icon }) => {
             About
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            exact
+            activeStyle={{ textDecoration: "underline" }}
+            to="/register"
+          >
+            Register
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            exact
+            activeStyle={{ textDecoration: "underline" }}
+            to="/login"
+          >
+            Login
+          </NavLink>
+        </li>
       </ul>
     </div>
   );
