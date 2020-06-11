@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactItem from "./ContactItem";
@@ -10,13 +11,19 @@ const Contacts = ({ contacts, filtered }) => {
 
   return (
     <Fragment>
-      {filtered
-        ? filtered.map((contact) => (
-            <ContactItem contact={contact} key={contact.id} />
-          ))
-        : contacts.map((contact) => (
-            <ContactItem contact={contact} key={contact.id} />
-          ))}
+      <TransitionGroup>
+        {filtered
+          ? filtered.map((contact) => (
+              <CSSTransition key={contact.id} timeout={500} classNames="item">
+                <ContactItem contact={contact} />
+              </CSSTransition>
+            ))
+          : contacts.map((contact) => (
+              <CSSTransition key={contact.id} timeout={500} classNames="item">
+                <ContactItem contact={contact} />
+              </CSSTransition>
+            ))}
+      </TransitionGroup>
     </Fragment>
   );
 };
