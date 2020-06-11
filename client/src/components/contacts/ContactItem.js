@@ -1,8 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteContact } from "../../actions/contactActions";
 
-const ContactItem = ({ contact }) => {
+const ContactItem = ({ contact, deleteContact }) => {
   const { name, id, email, phone, type } = contact;
+  const handleDelete = () => {
+    deleteContact(id);
+  };
   return (
     <div className="card bg-light">
       <h3 className="text-primary text-left ">
@@ -30,7 +35,9 @@ const ContactItem = ({ contact }) => {
       </ul>
       <p>
         <button className="btn btn-dark btn-sm">Edit</button>
-        <button className="btn btn-danger btn-sm">Delete</button>
+        <button onClick={handleDelete} className="btn btn-danger btn-sm">
+          Delete
+        </button>
       </p>
     </div>
   );
@@ -38,6 +45,7 @@ const ContactItem = ({ contact }) => {
 
 ContactItem.propTypes = {
   contact: PropTypes.object.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
 
-export default ContactItem;
+export default connect(null, { deleteContact })(ContactItem);

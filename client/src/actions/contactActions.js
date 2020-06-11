@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -7,7 +10,6 @@ import {
   FILTER_CONTACT,
   CLEAR_FILTER,
 } from "../actions/actionTypes";
-import { v4 as uuidv4 } from "uuid";
 
 // Add contact
 export const addContact = (contact) => async (dispatch) => {
@@ -19,6 +21,12 @@ export const addContact = (contact) => async (dispatch) => {
 };
 
 // Delete contact
+export const deleteContact = (id) => async (dispatch) => {
+  dispatch({
+    type: DELETE_CONTACT,
+    payload: id,
+  });
+};
 
 // Set current contact
 
