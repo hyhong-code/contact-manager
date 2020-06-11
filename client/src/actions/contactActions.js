@@ -29,8 +29,19 @@ export const deleteContact = (id) => async (dispatch) => {
 };
 
 // Set current contact
+export const setCurrentContact = (contact) => async (dispatch) => {
+  dispatch({
+    type: SET_CURRENT,
+    payload: contact,
+  });
+};
 
 // Clear current contact
+export const clearCurrentContact = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_CURRENT,
+  });
+};
 
 // Update contacts
 

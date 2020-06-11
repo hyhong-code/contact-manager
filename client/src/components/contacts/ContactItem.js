@@ -1,12 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteContact } from "../../actions/contactActions";
+import {
+  deleteContact,
+  setCurrentContact,
+  clearCurrentContact,
+} from "../../actions/contactActions";
 
-const ContactItem = ({ contact, deleteContact }) => {
+const ContactItem = ({
+  contact,
+  deleteContact,
+  setCurrentContact,
+  clearCurrentContact,
+}) => {
   const { name, id, email, phone, type } = contact;
   const handleDelete = () => {
     deleteContact(id);
+    clearCurrentContact();
   };
   return (
     <div className="card bg-light">
@@ -34,7 +44,12 @@ const ContactItem = ({ contact, deleteContact }) => {
         )}
       </ul>
       <p>
-        <button className="btn btn-dark btn-sm">Edit</button>
+        <button
+          className="btn btn-dark btn-sm"
+          onClick={() => setCurrentContact(contact)}
+        >
+          Edit
+        </button>
         <button onClick={handleDelete} className="btn btn-danger btn-sm">
           Delete
         </button>
@@ -46,6 +61,12 @@ const ContactItem = ({ contact, deleteContact }) => {
 ContactItem.propTypes = {
   contact: PropTypes.object.isRequired,
   deleteContact: PropTypes.func.isRequired,
+  setCurrentContact: PropTypes.func.isRequired,
+  clearCurrentContact: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteContact })(ContactItem);
+export default connect(null, {
+  deleteContact,
+  clearCurrentContact,
+  setCurrentContact,
+})(ContactItem);
