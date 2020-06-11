@@ -30,6 +30,7 @@ const Register = ({
       }
       clearError();
     }
+    // eslint-disable-next-line
   }, [error, isAuthenticated, history]);
 
   const { name, email, password, password2 } = user;
@@ -47,8 +48,8 @@ const Register = ({
       setAlert("Passwords do not match", "danger");
     } else {
       registerUser(user);
+      setUser({ name: "", email: "", password: "", password2: "" });
     }
-    setUser({ name: "", email: "", password: "", password2: "" });
   };
 
   return (

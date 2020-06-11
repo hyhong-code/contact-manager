@@ -22,6 +22,7 @@ const Login = ({
       }
       clearError();
     }
+    // eslint-disable-next-line
   }, [error, isAuthenticated]);
 
   const [user, setUser] = useState({
@@ -78,6 +79,14 @@ const Login = ({
       </form>
     </div>
   );
+};
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = ({ auth }) => ({ auth });

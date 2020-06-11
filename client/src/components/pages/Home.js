@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 const Home = ({ loadUser }) => {
   useEffect(() => {
     loadUser();
+    // eslint-disable-next-line
   }, []);
 
   return (
