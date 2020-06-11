@@ -13,9 +13,9 @@ const ContactItem = ({
   setCurrentContact,
   clearCurrentContact,
 }) => {
-  const { name, id, email, phone, type } = contact;
+  const { name, _id, email, phone, type } = contact;
   const handleDelete = () => {
-    deleteContact(id);
+    deleteContact(_id);
     clearCurrentContact();
   };
   return (

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
+import { clearContacts } from "../../actions/contactActions";
 import { connect } from "react-redux";
 
 const Navbar = ({
@@ -9,9 +10,12 @@ const Navbar = ({
   icon,
   logoutUser,
   auth: { isAuthenticated, user },
+  contact,
+  clearContacts,
 }) => {
   const handleLogout = () => {
     logoutUser();
+    clearContacts();
   };
 
   const authLinks = (
@@ -80,6 +84,8 @@ const Navbar = ({
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string,
+  auth: PropTypes.object.isRequired,
+  contact: PropTypes.object.isRequired,
 };
 
 Navbar.defaultProps = {
@@ -87,6 +93,6 @@ Navbar.defaultProps = {
   icon: "fas fa-id-card-alt",
 };
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = ({ auth, contact }) => ({ auth, contact });
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearContacts })(Navbar);

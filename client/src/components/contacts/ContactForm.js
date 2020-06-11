@@ -46,6 +46,7 @@ const ContactForm = ({
     } else {
       updateContact(contact);
     }
+    clearCurrentContact();
     setContact({ name: "", email: "", phone: "", type: "personal" });
   };
 
