@@ -1,9 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addContact } from "../../actions/contactActions";
+import {
+  addContact,
+  clearCurrentContact,
+  updateContact,
+} from "../../actions/contactActions";
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = ({
+  addContact,
+  current,
+  clearCurrentContact,
+  updateContact,
+}) => {
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact({
+        name: "",
+        email: "",
+        phone: "",
+        type: "personal",
+      });
+    }
+  }, [current]);
+
   const [contact, setContact] = useState({
     name: "",
     email: "",
@@ -19,13 +41,24 @@ const ContactForm = ({ addContact }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    addContact(contact);
+    if (!current) {
+      addContact(contact);
+    } else {
+      updateContact(contact);
+    }
+    setContact({ name: "", email: "", phone: "", type: "personal" });
+  };
+
+  const clearAll = () => {
+    clearCurrentContact();
     setContact({ name: "", email: "", phone: "", type: "personal" });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className="text-primary">Add Contact</h2>
+      <h2 className="text-primary">
+        {!current ? "Add Contact" : "Update Contact"}
+      </h2>
       <input
         type="text"
         value={name}
@@ -68,15 +101,33 @@ const ContactForm = ({ addContact }) => {
         <input
           className="btn btn-primary btn-block"
           type="submit"
-          value="Add Contact"
+          value={!current ? "Add Contact" : "Update Contact"}
         />
       </div>
+      {current && (
+        <div>
+          <button className="btn btn-light btn-block" onClick={clearAll}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };
 
 ContactForm.propTypes = {
   addContact: PropTypes.func.isRequired,
+  current: PropTypes.object,
+  clearCurrentContact: PropTypes.func.isRequired,
+  updateContact: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addContact })(ContactForm);
+const mapStateToProps = ({ contact: { current } }) => ({
+  current,
+});
+
+export default connect(mapStateToProps, {
+  addContact,
+  clearCurrentContact,
+  updateContact,
+})(ContactForm);

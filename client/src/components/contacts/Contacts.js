@@ -3,22 +3,32 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ContactItem from "./ContactItem";
 
-const Contacts = ({ contacts }) => {
+const Contacts = ({ contacts, filtered }) => {
+  if (!contacts.length) {
+    return <h4>Please add a contact</h4>;
+  }
+
   return (
     <Fragment>
-      {contacts.map((contact) => (
-        <ContactItem contact={contact} key={contact.id} />
-      ))}
+      {filtered
+        ? filtered.map((contact) => (
+            <ContactItem contact={contact} key={contact.id} />
+          ))
+        : contacts.map((contact) => (
+            <ContactItem contact={contact} key={contact.id} />
+          ))}
     </Fragment>
   );
 };
 
 Contacts.propTypes = {
   contacts: PropTypes.array.isRequired,
+  filtered: PropTypes.array,
 };
 
-const mapStateToProps = ({ contacts }) => ({
+const mapStateToProps = ({ contact: { contacts, filtered } }) => ({
   contacts,
+  filtered,
 });
 
 export default connect(mapStateToProps)(Contacts);

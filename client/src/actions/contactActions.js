@@ -44,7 +44,24 @@ export const clearCurrentContact = () => async (dispatch) => {
 };
 
 // Update contacts
+export const updateContact = (contact) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_CONTACT,
+    payload: contact,
+  });
+};
 
 // Filter contacts
+export const filterContacts = (text) => async (dispatch) => {
+  dispatch({
+    type: FILTER_CONTACT,
+    payload: text,
+  });
+};
 
 // Clear filter
+export const clearFilter = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_FILTER,
+  });
+};
