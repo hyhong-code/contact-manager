@@ -6,34 +6,14 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACT,
   CLEAR_FILTER,
+  CONTACT_ERROR,
 } from "../actions/actionTypes";
 
 const INITIAL_STATE = {
-  contacts: [
-    {
-      id: 1,
-      name: "Denny Hong",
-      email: "hong@gmail.com",
-      phone: "206-666-6666",
-      type: "professional",
-    },
-    {
-      id: 2,
-      name: "Lily Yuan",
-      email: "lily@gmail.com",
-      phone: "206-626-6666",
-      type: "professional",
-    },
-    {
-      id: 3,
-      name: "Owen Whiter",
-      email: "owen@gmail.com",
-      phone: "206-636-6666",
-      type: "personal",
-    },
-  ],
+  contacts: [],
   current: null,
   filtered: null,
+  error: null,
 };
 
 const contactReducer = (state = INITIAL_STATE, action) => {
@@ -78,6 +58,11 @@ const contactReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         filtered: null,
+      };
+    case CONTACT_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

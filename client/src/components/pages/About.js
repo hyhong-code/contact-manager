@@ -1,13 +1,6 @@
-import React, { useEffect } from "react";
-import { loadUser } from "../../actions/authActions";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React from "react";
 
-const About = ({ loadUser }) => {
-  useEffect(() => {
-    loadUser();
-  }, []);
-
+const About = () => {
   return (
     <div>
       <h1>About this app</h1>
@@ -21,8 +14,4 @@ const About = ({ loadUser }) => {
   );
 };
 
-About.propTypes = {
-  loadUser: PropTypes.func.isRequired,
-};
-
-export default connect(null, { loadUser })(About);
+export default About;

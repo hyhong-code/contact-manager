@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 import {
@@ -9,15 +8,30 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACT,
   CLEAR_FILTER,
+  CONTACT_ERROR,
 } from "../actions/actionTypes";
 
 // Add contact
 export const addContact = (contact) => async (dispatch) => {
-  contact.id = uuidv4();
-  dispatch({
-    type: ADD_CONTACT,
-    payload: contact,
-  });
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const resp = await axios.post("api/contacts", contact, config);
+    dispatch({
+      type: ADD_CONTACT,
+      payload: resp.data,
+    });
+  } catch (error) {
+    console.error(error.response.data.errors[0].msg);
+    dispatch({
+      type: CONTACT_ERROR,
+      payload: error.response.data.errors[0].msg,
+    });
+  }
 };
 
 // Delete contact
