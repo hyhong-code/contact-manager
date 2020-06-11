@@ -6,6 +6,9 @@ const app = express();
 // Connect to DB
 connectDB();
 
+// Middlewares
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) => {
   res.json({ msg: "WELCOME!" });
 });

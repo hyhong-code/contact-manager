@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://denny123:denny123@cluster0-qne7k.mongodb.net/<dbname>?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://denny123:denny123@cluster0-qne7k.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "myjwt2020letsgo"
 }
