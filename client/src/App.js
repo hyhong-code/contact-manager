@@ -6,7 +6,13 @@ import About from "./components/pages/About";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alerts from "./components/layout/Alerts";
+import setAuthToken from "./utils/setAuthToken";
 import "./App.css";
+
+// Set global header token on page load
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   return (

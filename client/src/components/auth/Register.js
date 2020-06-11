@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alertActions";
+import { registerUser, clearError } from "../../actions/authActions";
 
-const Register = ({ alert, setAlert }) => {
+const Register = ({
+  alert,
+  setAlert,
+  registerUser,
+  clearError,
+  auth: { isAuthenticated, error },
+  history,
+}) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
     password2: "",
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+
+    if (error) {
+      setAlert(error, "danger", 5000);
+      clearError();
+    }
+  }, [error, isAuthenticated, history]);
 
   const { name, email, password, password2 } = user;
 
@@ -20,14 +39,14 @@ const Register = ({ alert, setAlert }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
     if (!name || !email || !password) {
       setAlert("Please fill out all fields", "danger");
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
     } else {
-      console.log("Register");
+      registerUser(user);
     }
+    setUser({ name: "", email: "", password: "", password2: "" });
   };
 
   return (
@@ -90,9 +109,14 @@ const Register = ({ alert, setAlert }) => {
 
 Register.propTypes = {
   alert: PropTypes.array.isRequired,
+  auth: PropTypes.object.isRequired,
   setAlert: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ alert }) => ({ alert });
+const mapStateToProps = ({ alert, auth }) => ({ alert, auth });
 
-export default connect(mapStateToProps, { setAlert })(Register);
+export default connect(mapStateToProps, { setAlert, registerUser, clearError })(
+  Register
+);
