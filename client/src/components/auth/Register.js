@@ -25,7 +25,9 @@ const Register = ({
     }
 
     if (error) {
-      setAlert(error, "danger", 5000);
+      if (error !== "No token, authorization denied") {
+        setAlert(error, "danger", 5000);
+      }
       clearError();
     }
   }, [error, isAuthenticated, history]);

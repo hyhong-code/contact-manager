@@ -58,11 +58,39 @@ export const registerUser = (formData) => async (dispatch) => {
     });
   }
 };
+
 // Login user: userdata -> token
-export const loginUser = () => async (dispatch) => {};
+export const loginUser = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify(formData);
+
+  try {
+    const resp = await axios.post("/api/auth", body, config);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: resp.data,
+    });
+
+    dispatch(loadUser());
+  } catch (error) {
+    console.log(error.response.data.errors[0].msg);
+    dispatch({
+      type: LOGIN_FAIL,
+      payload: error.response.data.errors[0].msg,
+    });
+  }
+};
 
 // Logout user: destroy token
-export const logoutUser = () => async (dispatch) => {};
+export const logoutUser = () => async (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
+};
 
 // Clear error
 export const clearError = () => async (dispatch) => {

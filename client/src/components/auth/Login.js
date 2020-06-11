@@ -1,7 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser, clearError } from "../../actions/authActions";
+import { setAlert } from "../../actions/alertActions";
 
-const Login = (props) => {
+const Login = ({
+  loginUser,
+  setAlert,
+  clearError,
+  history,
+  auth: { isAuthenticated, error },
+}) => {
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+
+    if (error) {
+      if (error !== "No token, authorization denied") {
+        setAlert(error, "danger", 5000);
+      }
+      clearError();
+    }
+  }, [error, isAuthenticated]);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -16,7 +38,11 @@ const Login = (props) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log("Submit");
+    loginUser(user);
+    setUser({
+      email: "",
+      password: "",
+    });
   };
 
   return (
@@ -54,4 +80,8 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps, { loginUser, setAlert, clearError })(
+  Login
+);
